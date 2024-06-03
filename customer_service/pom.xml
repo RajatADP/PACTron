@@ -65,7 +65,7 @@
 					<!-- <pactBrokerUrl>http://localhost:9292</pactBrokerUrl> -->
 					<pactBrokerUrl>http://pact-broker:9292</pactBrokerUrl>
 					<pactDirectory>src/test/resources/contracts</pactDirectory>
-					<branchName>${pact.consumer.branch}</branchName>
+					<branchName>${branch}</branchName>
 					<projectVersion>${pact.pacticipant.version}</projectVersion>
 					<!-- <tags>
                        <tag>${pact.tag}</tag>
