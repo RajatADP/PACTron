@@ -19,14 +19,14 @@ pipeline {
         }
         stage('Run Contract Tests') {
             steps {
-                dir('customer-service') {
+                dir('customer_service') {
                     sh 'mvn clean install -Dtest=RetailerContractTests'
                 }
             }
         }
         stage('Publish Pact to Broker') {
             steps {
-                dir('customer-service') {
+                dir('customer_service') {
                     sh 'mvn pact:publish -Dpact.consumer.branch=${BRANCH_NAME} -Dpact.pacticipant.version=${GIT_COMMIT}'
                 }
             }

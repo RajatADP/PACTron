@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Run Contract Tests') {
             steps {
-                dir('retailer-service') {
+                dir('retailer_service') {
                     sh 'mvn clean install -Dtest=CustomerServiceContractTests'
                     sh 'mvn clean install -Dtest=ProductServiceContractTests'
                 }
