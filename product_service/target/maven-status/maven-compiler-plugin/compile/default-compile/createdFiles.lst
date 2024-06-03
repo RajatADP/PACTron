@@ -1,0 +1,6 @@
+com/app/models/ProductCatalogue.class
+com/app/controller/ProductCatalogueController.class
+com/app/ProductServiceApplication.class
+com/app/models/ProductServiceResponse.class
+com/app/models/Product.class
+com/app/clients/ProductServiceClient.class
