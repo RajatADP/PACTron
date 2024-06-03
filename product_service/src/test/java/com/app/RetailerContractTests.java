@@ -67,7 +67,7 @@ public class RetailerContractTests {
         productServiceClient.setBaseUrl(mockServer.getUrl());
         List<Product> products = productServiceClient.fetchProducts().getProducts();
         assertThat(products, hasSize(2));
-        assertThat(products.getFirst(), is(equalTo(new Product(9L, "Gem Visa", "CREDIT_CARD", null, null))));
+        assertThat(products.stream().findFirst().get(), is(equalTo(new Product(9L, "Gem Visa", "CREDIT_CARD", null, null))));
     }
 
     @Pact(consumer = "ProductCatalogue")

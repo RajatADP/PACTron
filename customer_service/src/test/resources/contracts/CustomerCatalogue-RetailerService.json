@@ -1,0 +1,74 @@
+{
+  "consumer": {
+    "name": "CustomerCatalogue"
+  },
+  "interactions": [
+    {
+      "description": "get customer with ID 1",
+      "providerStates": [
+        {
+          "name": "customer with ID 1 exists",
+          "params": {
+            "id": 1
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/customer/1"
+      },
+      "response": {
+        "body": {
+          "id": 1,
+          "name": "Marketo"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-jvm": {
+      "version": "4.4.5"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "RetailerService"
+  }
+}
