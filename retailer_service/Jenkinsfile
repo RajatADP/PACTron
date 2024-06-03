@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven' 
+    }
+
+    environment {
+      BRANCH_NAME=env.GIT_BRANCH.replace("origin/", "")
+   }
+    
+    stages {
+        stage('checkout') {
+            steps {
+
+                checkout scmGit(
+                    branches: [[name: '*/'+ BRANCH_NAME]],
+                    userRemoteConfigs: [[url: 'https://github.com/RajatADP/PACTron.git']])
+            }
+        }
+        stage('Run Contract Tests') {
+            steps {
+                dir('retailer-service') {
+                    sh 'mvn clean install -Dtest=CustomerServiceContractTests'
+                    sh 'mvn clean install -Dtest=ProductServiceContractTests'
+                }
+            }
+        }
+        
+        stage('Can-i-deploy?') {
+            steps {
+                sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.91.0/pact-1.91.0-linux-x86_64.tar.gz'
+                sh 'tar xzf pact-1.91.0-linux-x86_64.tar.gz'
+                    dir('pact/bin') {
+                        sh './pact-broker can-i-deploy -a RetailerService -b http://pact-broker:9292 -e ${GIT_COMMIT}'
+                    }
+            }
+        }
+        stage('Tag pacticipant version to main') {
+            input {
+                message 'Provider branch ${BRANCH_NAME} merged to main?'
+            }
+            steps {
+                dir('pact/bin') {
+                    sh './pact-broker create-version-tag -a RetailerService -e ${GIT_COMMIT} -b http://pact-broker:9292 -t main'
+                }
+            }
+        }
+    }
+}
