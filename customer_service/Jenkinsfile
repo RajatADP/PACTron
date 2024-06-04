@@ -20,14 +20,15 @@ pipeline {
         stage('Run Contract Tests') {
             steps {
                 dir('customer_service') {
-                    sh 'mvn clean install -Dtest=RetailerContractTests'
+                    sh './mvnw verify'
                 }
             }
         }
         stage('Publish Pact to Broker') {
             steps {
                 dir('customer_service') {
-                    sh 'mvn pact:publish -Dpact.consumer.branch=${BRANCH_NAME} -Dpact.pacticipant.version=${GIT_COMMIT}'
+//                     sh 'mvn pact:publish -Dpact.consumer.branch=${BRANCH_NAME} -Dpact.pacticipant.version=${GIT_COMMIT}'
+                sh './mvnw pact:publish -Dpact.publish.consumer.version=$(git rev-parse HEAD) -Dpact.publish.consumer.branchName=$(git rev-parse --abbrev-ref HEAD)'
                 }
             }
         }
@@ -38,11 +39,11 @@ pipeline {
                 //sh './mvnw pact:publish -Dpact.publish.consumer.version=$(git rev-parse HEAD) -Dpact.publish.consumer.branchName=$(git rev-parse --abbrev-ref HEAD)'
                     //dir('pact/bin') {
                         // sh './pact-broker create-webhook http://jenkins:8080/job/provider-ci/ --request POST -b http://pact-broker:9292 --contract_requiring_verification_published'
-                        sh 'mvn pact:can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a CustomerCatalogue -b http://pact-broker:9292 -e ${GIT_COMMIT}'
+                        sh './mvnw pact:can-i-deploy -Dpacticipant=CustomerCatalogue -DpacticipantVersion=$(git rev-parse HEAD)'
                     //}
             }
         }
-        stage('Tag pacticipant version to main') {
+        /* stage('Tag pacticipant version to main') {
             input {
                 message 'Consumer branch ${BRANCH_NAME} merged to main?'
             }
@@ -52,6 +53,6 @@ pipeline {
                     echo 'Safe to deploy to dev environment!'
                 //}
             }
-        }
+        } */
     }
 }

@@ -7,6 +7,7 @@ import au.com.dius.pact.provider.junitsupport.Consumer;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.StateChangeAction;
+import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import com.app.model.Product;
 import com.app.repository.ProductRepository;
@@ -24,7 +25,8 @@ import java.util.Optional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Provider("RetailerService")
 @Consumer("ProductCatalogue")
-@PactFolder("src/main/resources/pacts")
+//@PactFolder("src/main/resources/pacts")
+@PactBroker(url = "http://localhost:9292")
 public class ProductServiceContractTests {
     @LocalServerPort
     public int port;

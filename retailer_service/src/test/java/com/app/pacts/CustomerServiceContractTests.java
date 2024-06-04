@@ -7,6 +7,7 @@ import au.com.dius.pact.provider.junitsupport.Consumer;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.StateChangeAction;
+import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import com.app.model.Customer;
 import com.app.service.RetailerService;
@@ -22,7 +23,8 @@ import java.util.Map;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Provider("RetailerService")
 @Consumer("CustomerCatalogue")
-@PactFolder("src/main/resources/pacts")
+//@PactFolder("src/main/resources/pacts")
+@PactBroker(url = "http://localhost:9292")
 public class CustomerServiceContractTests {
     @LocalServerPort
     public int port;

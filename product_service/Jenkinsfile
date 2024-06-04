@@ -20,25 +20,27 @@ pipeline {
         stage('Run Contract Tests') {
             steps {
                 dir('product_service') {
-                    sh 'mvn clean install -Dtest=RetailerContractTests'
+                    sh './mvnw verify'
                 }
             }
         }
         stage('Publish Pact to Broker') {
             steps {
                 dir('product_service') {
-                    sh 'mvn pact:publish -Dpact.consumer.branch=${BRANCH_NAME} -Dpact.pacticipant.version=${GIT_COMMIT}'
+//                     sh 'mvn pact:publish -Dpact.consumer.branch=${BRANCH_NAME} -Dpact.pacticipant.version=${GIT_COMMIT}'
+                    sh './mvnw pact:publish -Dpact.publish.consumer.version=$(git rev-parse HEAD) -Dpact.publish.consumer.branchName=$(git rev-parse --abbrev-ref HEAD)'
                 }
             }
         }
         stage('Can-i-deploy?') {
             steps {
-                sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.91.0/pact-1.91.0-linux-x86_64.tar.gz'
-                sh 'tar xzf pact-1.91.0-linux-x86_64.tar.gz'
-                    dir('pact/bin') {
+//                 sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.91.0/pact-1.91.0-linux-x86_64.tar.gz'
+//                 sh 'tar xzf pact-1.91.0-linux-x86_64.tar.gz'
+//                     dir('pact/bin') {
                         // sh './pact-broker create-webhook http://jenkins:8080/job/provider-ci/ --request POST -b http://pact-broker:9292 --contract_requiring_verification_published'
-                        sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a ProductCatalogue -b http://pact-broker:9292 -e ${GIT_COMMIT}'
-                    }
+//                         sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a ProductCatalogue -b http://pact-broker:9292 -e ${GIT_COMMIT}'
+//                     }
+                sh './mvnw pact:can-i-deploy -Dpacticipant=ProductCatalogue -DpacticipantVersion=$(git rev-parse HEAD)'
             }
         }
         stage('Tag pacticipant version to main') {
@@ -46,10 +48,10 @@ pipeline {
                 message 'Consumer branch ${BRANCH_NAME} merged to main?'
             }
             steps {
-                dir('pact/bin') {
-                    sh './pact-broker create-version-tag -a ProductCatalogue -e ${GIT_COMMIT} -b http://pact-broker:9292 -t main'
-                    echo 'Safe to deploy to dev environment!'
-                }
+//                 dir('pact/bin') {
+//                     sh './pact-broker create-version-tag -a ProductCatalogue -e ${GIT_COMMIT} -b http://pact-broker:9292 -t main'
+//                     echo 'Safe to deploy to dev environment!'
+//                 }
             }
         }
     }
