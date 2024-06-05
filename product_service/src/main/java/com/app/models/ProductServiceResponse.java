@@ -1,7 +1,5 @@
 package com.app.models;
 
-import lombok.*;
-
 import java.util.List;
 
 public class ProductServiceResponse {

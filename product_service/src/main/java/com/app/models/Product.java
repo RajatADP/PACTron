@@ -1,9 +1,5 @@
 package com.app.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-
 public class Product {
     private  Long id;
     private  String name;
