@@ -14,7 +14,9 @@
     <name>product_service</name>
     <description>consumer of retailer service</description>
     <properties>
-        <java.version>11</java.version>
+<!--        <java.version>11</java.version>-->
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
@@ -34,7 +36,7 @@
         <dependency>
             <groupId>au.com.dius.pact.consumer</groupId>
             <artifactId>junit5</artifactId>
-            <version>4.4.5</version>
+            <version>4.5.7</version>
         </dependency>
     </dependencies>
 
@@ -55,7 +57,7 @@
             <plugin>
                 <groupId>au.com.dius.pact.provider</groupId>
                 <artifactId>maven</artifactId>
-                <version>4.4.5</version>
+                <version>4.5.7</version>
                 <configuration>
                     <!-- <pactBrokerUrl>https://rajatmishra.pactflow.io/</pactBrokerUrl>
                      <pactBrokerToken>ev2_6hqwATAlBVoEW-SqJw</pactBrokerToken>
