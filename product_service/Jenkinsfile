@@ -43,7 +43,7 @@ pipeline {
                 sh './mvnw pact:can-i-deploy -Dpacticipant=ProductCatalogue -DpacticipantVersion=$(git rev-parse HEAD)'
             }
         }
-        stage('Tag pacticipant version to main') {
+        /* stage('Tag pacticipant version to main') {
             input {
                 message 'Consumer branch ${BRANCH_NAME} merged to main?'
             }
@@ -52,7 +52,7 @@ pipeline {
 //                     sh './pact-broker create-version-tag -a ProductCatalogue -e ${GIT_COMMIT} -b http://pact-broker:9292 -t main'
 //                     echo 'Safe to deploy to dev environment!'
 //                 }
-            }
+            } */
         }
     }
 }
