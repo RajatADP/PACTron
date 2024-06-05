@@ -13,9 +13,16 @@ public class ProductServiceClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Setter
     @Value("${serviceClients.products.baseUrl}")
     private String baseUrl;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     public ProductServiceResponse fetchProducts() {
         return restTemplate.getForObject(baseUrl + "/products", ProductServiceResponse.class);

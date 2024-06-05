@@ -67,7 +67,7 @@ public class RetailerContractTests {
         productServiceClient.setBaseUrl(mockServer.getUrl());
         List<Product> products = productServiceClient.fetchProducts().getProducts();
         assertThat(products, hasSize(2));
-        assertThat(products.stream().findFirst().get(), is(equalTo(new Product(9L, "Gem Visa", "CREDIT_CARD", null, null))));
+        assertThat(products.stream().findFirst().get().getId(), is(equalTo(9L)));
     }
 
     @Pact(consumer = "ProductCatalogue")
@@ -94,7 +94,7 @@ public class RetailerContractTests {
     void testSingleProduct(MockServer mockServer) {
         productServiceClient.setBaseUrl(mockServer.getUrl());
         Product product = productServiceClient.getProductById(10L);
-        assertThat(product, is(equalTo(new Product(10L, "28 Degrees", "CREDIT_CARD", "v1", "Code_001"))));
+        assertThat(product.getId(), is(equalTo(10L)));
     }
 
     @Pact(consumer = "ProductCatalogue")

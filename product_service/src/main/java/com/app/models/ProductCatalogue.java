@@ -1,15 +1,18 @@
 package com.app.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 
-@Data
-@Getter
-@Setter
+
 public class ProductCatalogue {
-    private final List<Product> products;
+    private  List<Product> products;
+
+    public ProductCatalogue(){}
+
+    public ProductCatalogue(List<Product> products) {
+        this.products = products;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
 }

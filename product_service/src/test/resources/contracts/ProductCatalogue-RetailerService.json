@@ -1,0 +1,235 @@
+{
+  "consumer": {
+    "name": "ProductCatalogue"
+  },
+  "interactions": [
+    {
+      "description": "get all products",
+      "providerStates": [
+        {
+          "name": "no products exists"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/products"
+      },
+      "response": {
+        "body": {
+          "products": [
+
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "matchingRules": {
+          "header": {
+            "Content-Type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "get product with ID 10",
+      "providerStates": [
+        {
+          "name": "product with ID 10 does not exist",
+          "params": {
+            "id": 10
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/product/10"
+      },
+      "response": {
+        "status": 404
+      }
+    },
+    {
+      "description": "get product with ID 10",
+      "providerStates": [
+        {
+          "name": "product with ID 10 exists",
+          "params": {
+            "id": 10
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/product/10"
+      },
+      "response": {
+        "body": {
+          "code": "Code_001",
+          "id": 10,
+          "name": "28 Degrees",
+          "type": "CREDIT_CARD",
+          "version": "v1"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "matchingRules": {
+          "body": {
+            "$.code": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.version": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "get all products",
+      "providerStates": [
+        {
+          "name": "products exists"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/products"
+      },
+      "response": {
+        "body": {
+          "products": [
+            {
+              "id": 9,
+              "name": "Gem Visa",
+              "type": "CREDIT_CARD"
+            },
+            {
+              "id": 9,
+              "name": "Gem Visa",
+              "type": "CREDIT_CARD"
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "matchingRules": {
+          "body": {
+            "$.products": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$.products[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.products[*].name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.products[*].type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-jvm": {
+      "version": "4.5.7"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "RetailerService"
+  }
+}
