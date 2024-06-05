@@ -53,6 +53,5 @@ pipeline {
 //                     echo 'Safe to deploy to dev environment!'
 //                 }
             } */
-        }
     }
 }
